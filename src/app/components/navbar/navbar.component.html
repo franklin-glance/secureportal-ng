@@ -1,10 +1,11 @@
+<div class="nav border-bottom">
 <div class="container">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
     <a routerLink="/homepage" class="navbar-brand d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-      <!--            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"/></svg>-->
       SecurePortal
     </a>
 
+<!--    main nav links-->
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
       <li><a routerLinkActive="active current" routerLink="/homepage" class="nav-link px-2 link-secondary">Home</a></li>
       <li><a routerLinkActive="active current" routerLink="/features" class="nav-link px-2 link-dark">Features</a></li>
@@ -13,9 +14,11 @@
       <li><a routerLinkActive="active current" routerLink="/about" class="nav-link px-2 link-dark">About</a></li>
     </ul>
 
+<!--    right nav buttons-->
+
     <div class="col-md-3 text-end">
       <button type="button" class="btn btn-outline-dark" >New Portal</button>
-      <div *ngIf="; then signedIn else signedOut"></div>
+      <div *ngIf="logged_in; then signedIn else signedOut"></div>
       <ng-template #signedIn>
         <button type="button" class="btn btn-outline-primary" >Logout</button>
       </ng-template>
@@ -24,6 +27,7 @@
         <button routerLink="/register" type="button" class="btn btn-outline-primary" >Register</button>
       </ng-template>
     </div>
-  </header>
-</div>
 
+</header>
+</div>
+</div>

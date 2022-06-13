@@ -19,53 +19,64 @@ const routes: Routes = [
   {
     path: '',
     component: HomepageComponent,
-    title: 'Home'
+    title: 'SecurePortal | Home'
   },
   {
     path: 'homepage',
-    component: HomepageComponent
+    component: HomepageComponent,
+    title: 'SecurePortal | Home'
   },
   {
     path: 'about',
-    component: AboutComponent
+    component: AboutComponent,
+    title: 'SecurePortal | About'
   },
   {
     path: 'features',
-    component: FeaturesComponent
+    component: FeaturesComponent,
+    title: 'SecurePortal | Features'
   },
   {
     path: 'portal',
-    component: PortalComponent
+    component: PortalComponent,
+    title: 'SecurePortal | Portal'
   },
   {
     path: 'faq',
-    component: FaqComponent
+    component: FaqComponent,
+    title: 'SecurePortal | FAQ'
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    title: 'SecurePortal | Login'
   },
   {
     path: 'register',
-    component: RegisterComponent
+    component: RegisterComponent,
+    title: 'SecurePortal | Register'
   },
   {
     path: 'newportal',
-    component: PortalComponent
+    component: PortalComponent,
+    title: 'SecurePortal | New Portal'
   },
   {
     path: 'profile',
     component: ProfileComponent,
+    title: 'SecurePortal | Profile',
     children: [
       {
         path: 'settings',
-        component: SettingsComponent
+        component: SettingsComponent,
+        title: 'SecurePortal | Profile | Settings'
       }
     ],
   },
   {
     path: '**',
-    component: NotFoundComponent
+    component: NotFoundComponent,
+    title: 'SecurePortal | 404 Not Found'
   },
 ];
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppComponent} from "../../app.component";
+import { SessionData} from "../../ts/session-data";
 
 @Component({
   selector: 'app-navbar',
@@ -8,6 +9,7 @@ import { AppComponent} from "../../app.component";
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  logged_in = SessionData.isLoggedIn();
   title = "navbar";
 
   getTitle(){

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Router, RouterModule} from '@angular/router';
 import { Title} from "@angular/platform-browser";
 
+import {HttpClient, HttpErrorResponse, HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -9,10 +10,7 @@ import { Title} from "@angular/platform-browser";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  constructor() {
-    private router: Router;
-
+  constructor(private http: HttpClient) {
   }
 
   signed_in: boolean = false;

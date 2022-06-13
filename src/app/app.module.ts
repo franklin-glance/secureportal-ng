@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule} from "@angular/router";
-import { FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { HttpClientModule} from "@angular/common/http";
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,7 @@ import { NewportalComponent } from './components/portal/newportal/newportal.comp
 import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/profile/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
+import { CallToActionComponent } from './components/call-to-action/call-to-action.component';
 
 @NgModule({
   declarations: [
@@ -35,16 +38,20 @@ import { LoginComponent } from './components/login/login.component';
     NewportalComponent,
     ProfileComponent,
     SettingsComponent,
-    LoginComponent
+    LoginComponent,
+    CallToActionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    HttpClientModule,
     RouterModule.forRoot([
-      { path: 'about', component: AboutComponent },
-      { path: 'register', component: RegisterComponent },
+      {path: 'about', component: AboutComponent},
+      {path: 'register', component: RegisterComponent},
     ]),
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
