@@ -1,18 +1,54 @@
-<div class="container">
-  <form class="col-md-4" #loginForm="ngForm">
-    <div class="m-2 form-control">
-      <label for="username">Username:</label>
-      <input class="form-control" name="username" id="username" type="text" [(ngModel)]="user.username"/>
-      <hr/>
 
-      <label for="password">Password:</label>
-      <input id="password" type="password" [formControlName]="'password'" [ngModel]="user.password" />
+<div class="container login-form-container">
+  <div class="row align-content-center justify-content-center">
+    <div class="col-lg-4 col-md-auto col-sm-auto col-xl-auto login-area">
+      <div class="form-signin">
+        <form class="" #loginForm="ngForm" [formGroup]="loginFormGroup">
+         <div class="row align-content-center justify-content-center">
+           <svg xmlns="http://www.w3.org/2000/svg" width="75" height="75" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" style="color: #4f9391" >
+             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+           </svg>
+         </div>
+          <p class="heading-text m-3 text-center">Welcome to SecurePortal</p>
+          <hr/>
 
-      <button type="submit" [disabled]="!loginForm.valid" class="btn btn-outline-primary" (click)="onSubmit()">
-        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-        Login</button>
-      <a routerLink="../register" class="btn btn-link">Register</a>
+          <div class="form-floating mb-3">
+            <input [className]="invalidForm && !this.password_error_message ? 'form-control is-invalid' : 'form-control'" name="username" id="username" type="text" formControlName="username" placeholder="Username" />
+            <label for="username" class="">Username:</label>
+            <div class="invalid-feedback" *ngIf="invalidForm && !this.password_error_message" >
+              {{ this.errorMessage }}
+            </div>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input [className]="invalidForm && this.password_error_message ? 'form-control is-invalid' : 'form-control'" id="password" type="password" formControlName="password" placeholder="Password"  />
+            <label for="password">Password:</label>
+              <div class="text-danger" *ngIf="invalidForm && this.password_error_message">
+                {{ this.errorMessage }}
+              </div>
+          </div>
+
+
+          <div class="form-floating mb-3">
+          <!--      remember me checkbox-->
+            <span>
+            <input class="form-check-input" type="checkbox" id="remember" name="remember" />
+            <label class="form-check-label" for="remember">Remember me</label>
+            </span>
+            </div>
+
+          <div class="form-floating">
+            <button type="submit" [disabled]="!loginForm.valid" class="btn btn-outline-primary" (click)="onSubmit()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+              Login</button>
+            <button  type="button" class="btn btn-outline-primary" routerLink="../register">Register</button>
+          </div>
+
+        </form>
+
+        </div>
     </div>
+  </div>
 
-  </form>
 </div>

@@ -1,4 +1,5 @@
 export class Config{
-  static phpUrl: string = "localhost:80/php/secureportal/";
+  static phpUrl: string = "http://localhost/php/secureportal";
 
 }
+// http://localhost/php/secureportal/includes/login.inc.php

@@ -22,6 +22,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/profile/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
 import { CallToActionComponent } from './components/call-to-action/call-to-action.component';
+import { User} from "./models/user";
+import { AccountComponent } from './components/account/account.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { CallToActionComponent } from './components/call-to-action/call-to-actio
     ProfileComponent,
     SettingsComponent,
     LoginComponent,
-    CallToActionComponent
+    CallToActionComponent,
+    AccountComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,7 @@ import { CallToActionComponent } from './components/call-to-action/call-to-actio
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -5,10 +5,10 @@
     <li class="nav-item"><a routerLink="/contact" class="nav-link px-2 text-light">Contact</a></li>
     <li class="nav-item"><a routerLink="/about" class="nav-link px-2 text-light">About</a></li>
     <li class="nav-item"><a routerLink="/portal" class="nav-link px-2 text-light">Portal</a></li>
-    <div *ngIf="logged_in; then signedIn else signedOut"></div>
+    <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
     <ng-template #signedIn>
           <li class="nav-item"><a routerLink="/profile" class="nav-link px-2 text-light">Profile</a></li>
-          <li class="nav-item"><a routerLink="/logout" class="nav-link px-2 text-light">Logout</a></li>
+          <li class="nav-item"><a (click)="this.logout()" class="nav-link px-2 text-light">Logout</a></li>
     </ng-template>
     <ng-template #signedOut>
           <li class="nav-item"><a routerLink="/login" class="nav-link px-2 text-light">Login</a></li>

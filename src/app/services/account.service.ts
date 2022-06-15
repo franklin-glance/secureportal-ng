@@ -1,56 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import {Observable} from "rxjs";
 import { Router} from "@angular/router";
-import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 
 import { Config } from '../models/config'
-import { User } from '../models/user';
-import {error} from "@angular/compiler-cli/src/transformers/util";
-
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  private userBehaviorSubject: BehaviorSubject<User>;
-  public user: Observable<User>;
+ constructor(private http: HttpClient,
+             private router: Router) { }
 
-
-
-  constructor(private router: Router,
-              private http: HttpClient) {
-    if (localStorage.getItem('user') !== null)
-      { // @ts-ignore
-        this.userBehaviorSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-        this.userBehaviorSubject.subscribe();
-      }
-    else
-      throw error("user not created");
-    this.user = this.userBehaviorSubject.asObservable();
-  }
+  logged_in: boolean = false;
 
   // login user
-  login(username: any, password: any){
-    return this.http.post<User>(`${Config.phpUrl}/includes/login.inc.php`, {username, password})
-      .pipe(map(user=>{
-        // store user in local storage
-        localStorage.setItem('user', JSON.stringify(user));
+  login(data: any): Observable<any> {
+    return this.http.post<any>(`${Config.phpUrl}/includes/login.inc.php`, data);
+  }
 
-      }))
+  setLoggedIn(loggedIn: boolean){
+    this.logged_in = loggedIn;
+  }
+
+  getLoggedIn(){
+    let user = localStorage.getItem('user');
+    return !!user;
   }
 
   // logout user
   logout(){
-    localStorage.removeItem('user');
-    this.userBehaviorSubject.unsubscribe();
+    // delete user from local storage
+    console.log("logout");
+    localStorage.removeItem('user' );
+    this.logged_in = false;
   }
 
   // register new user
-  register(){
-    return this.http.post(`${Config.phpUrl}/includes/signup.inc.php`, this.user)
+  register(data: any): Observable<any>{
+    return this.http.post<any>(`${Config.phpUrl}/includes/signup.inc.php`, data);
   }
 
 
@@ -60,8 +49,19 @@ export class AccountService {
   }
 
   // remove user account
-  delete(username: string){
+  delete(){
+    let username = localStorage.getItem('user');
+    // delete user from local storage
+    sessionStorage.removeItem('user');
+
     return this.http.post(`${Config.phpUrl}/includes/deleteaccount.inc.php`, {username});
   }
 
+  getUsername() {
+    if(this.getLoggedIn()) {
+      return localStorage.getItem('user');
+    } else {
+      return "Guest";
+    }
+  }
 }

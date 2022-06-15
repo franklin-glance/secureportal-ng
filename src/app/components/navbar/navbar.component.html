@@ -17,10 +17,10 @@
 <!--    right nav buttons-->
 
     <div class="col-md-3 text-end">
-      <button type="button" class="btn btn-outline-dark" >New Portal</button>
-      <div *ngIf="logged_in; then signedIn else signedOut"></div>
+      <button routerLink="/portal" type="button" class="btn btn-outline-dark" >New Portal</button>
+      <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
       <ng-template #signedIn>
-        <button type="button" class="btn btn-outline-primary" >Logout</button>
+        <button (click)="this.logout()" type="button" class="btn btn-outline-primary">Logout</button>
       </ng-template>
       <ng-template #signedOut>
         <button routerLink="/login" type="button" class="btn btn-outline-dark" >Login</button>

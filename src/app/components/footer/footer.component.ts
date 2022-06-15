@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppComponent} from "../../app.component";
 import { SessionData} from "../../ts/session-data";
+import {AccountService} from "../../services/account.service";
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +11,16 @@ import { SessionData} from "../../ts/session-data";
 export class FooterComponent implements OnInit {
   logged_in = SessionData.isLoggedIn();
 
-  constructor() { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
+  isLoggedIn() {
+    return this.accountService.getLoggedIn();
+  }
+
+  logout() {
+    this.accountService.logout();
+  }
 }
