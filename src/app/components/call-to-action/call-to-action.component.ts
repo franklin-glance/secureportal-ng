@@ -14,7 +14,7 @@ export class CallToActionComponent implements OnInit {
 
   // on click of secret_key_portal_btn button
   secretKeyPortalBtnClick() {
-
+    console.log("secretKeyPortalBtnClick");
   }
 
 

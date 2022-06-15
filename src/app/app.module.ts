@@ -17,13 +17,17 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FeaturesComponent } from './components/features/features.component';
 import { PortalComponent } from './components/portal/portal.component';
 import { FaqComponent } from './components/faq/faq.component';
-import { NewportalComponent } from './components/portal/newportal/newportal.component';
+import { NewportalComponent } from './components/newportal/newportal.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { SettingsComponent } from './components/profile/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
 import { CallToActionComponent } from './components/call-to-action/call-to-action.component';
-import { User} from "./models/user";
-import { AccountComponent } from './components/account/account.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {ScrollingModule} from "@angular/cdk/scrolling";
+
+import {MatListModule} from "@angular/material/list";
+import { ConfirmdeleteComponent } from './components/profile/settings/confirmdelete/confirmdelete.component';
+
 
 @NgModule({
   declarations: [
@@ -42,7 +46,7 @@ import { AccountComponent } from './components/account/account.component';
     SettingsComponent,
     LoginComponent,
     CallToActionComponent,
-    AccountComponent,
+    ConfirmdeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,8 +59,11 @@ import { AccountComponent } from './components/account/account.component';
     ]),
     FormsModule,
     ReactiveFormsModule,
+    BrowserAnimationsModule,
+    ScrollingModule,
+    MatListModule
   ],
-  providers: [ ],
+  providers: [  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

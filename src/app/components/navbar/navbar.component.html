@@ -17,7 +17,7 @@
 <!--    right nav buttons-->
 
     <div class="col-md-3 text-end">
-      <button routerLink="/portal" type="button" class="btn btn-outline-dark" >New Portal</button>
+      <button routerLink="/newportal" type="button" class="btn btn-outline-dark" >New Portal</button>
       <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
       <ng-template #signedIn>
         <button (click)="this.logout()" type="button" class="btn btn-outline-primary">Logout</button>

@@ -15,6 +15,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 import {Config} from "../../models/config";
 
+import { createPeerConnection } from 'p2p-chat';
+
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

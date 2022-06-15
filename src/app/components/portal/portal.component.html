@@ -1,13 +1,26 @@
-<div class="row justify-content-center align-content-center">
-  <div class="col col-md-4">
+
+
+<div class="container">
+  <div class="row">
+    <div class="col col-special">
+      <nav aria-label="breadcrumb" class="bg-light rounded-3 ">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a routerLink="/homepage">Home</a></li>
+          <li class="breadcrumb-item active"><a routerLink="/portal">Portal</a></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+  <div class="row justify-content-center align-content-center">
+
+  <div class="col col-special col-12 col-lg-5 col-md-12 col-sm-12">
     <h4 class="row justify-content-center align-content-center">Settings</h4>
     <hr/>
     <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
 
     <ng-template #signedIn>
-      <button class="btn btn-primary btn-block" id="account_settings_button" type="button" routerLink="/account">Account Settings</button>
+      <button class="btn btn-primary btn-block" id="account_settings_button" type="button" routerLink="/profile/settings">Account Settings</button>
       <hr/>
-      <button class="btn btn-outline-secondary" id="delete_secret_key" (click)="deleteKey()">Delete Secret Key</button>
     </ng-template>
 
     <ng-template #signedOut>
@@ -16,55 +29,61 @@
     </ng-template>
 
 
-    <div class="col-12 mb-3">
-      <label for="">Enter Secret Key to Connect:</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-        </div>
-        <input type="text" class="form-control" id="secret_key_portal" placeholder="Secret Key" >
-        <button class="btn btn-outline-secondary" id="secret_key_portal_btn">Submit</button>
+
+    <div *ngIf="getSecretKey(); then showSecretKey else hideSecretKey" class="row"></div>
+    <ng-template #showSecretKey>
+      <div class="input-group mb-3 ">
+        <span type="button" class="secret-key-btn btn btn-outline-dark disabled" >
+        Secret Key: {{getSecretKey()}}
+        </span>
+        <button class="btn btn-outline-secondary" id="delete_secret_key" (click)="deleteKey()">Delete Key</button>
+        <button class="btn btn-outline-secondary" id="share_secret_key" (click)="copyKey()">Copy Key</button>
+        <small id="secret_key_help" class="form-text text-muted">
+          {{this.secret_key_help}}
+        </small>
       </div>
-    </div>
+    </ng-template>
+
+    <ng-template #hideSecretKey>
+      <div class="col-12 mb-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+          </div>
+          <button class="btn btn-primary btn-block" id="generateButton" type="button" routerLink="/newportal">New Key</button>
+          <input type="text" class="form-control" id="secret_key_portal" placeholder="Secret Key" [(ngModel)]="secret_key_form" >
+          <button class="btn btn-outline-secondary" id="secret_key_portal_btn" (click)="connectViaKey()">Connect</button>
+        </div>
+      </div>
+    </ng-template>
   </div>
-  <div class="chat-area col col-md-6 position-relative">
-    <h4 class="row justify-content-center align-content-center">
+  <div class="chat-area col col-special col-12 col-lg-6 col-md-12 col-sm-12 position-relative  ">
+    <h1 class="chat-header">
       Welcome {{getName()}}
-    </h4>
+    </h1>
     <hr/>
-
     <div class="row">
-      <div class="col">
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 ">
-          <div class="list-group list-group-flush border-bottom scrollarea">
-            <div class="list-group-item list-group-item-action py-3 lh-tight">
-              <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">Username</strong>
-              </div>
-              <div class="col-10 mb-1 small">Message content</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div class="col ">
 
-      <div class="col">
-        <div class="d-flex flex-column align-items-stretch flex-shrink-0 ">
-          <div class="list-group list-group-flush border-bottom scrollarea">
-            <div class="list-group-item list-group-item-action py-3 lh-tight">
+      <cdk-virtual-scroll-viewport  appendOnly itemSize="100" class="chat-viewport chat scroll-to-bottom" id="scroll" style="overflow: auto;">
+        <div *ngFor="let m of this.messages" class="d-flex  flex-column align-items-stretch flex-shrink-0 ">
+          <div class="list-group list-group-flush border-bottom scrollarea" >
+            <div class="list-group-item message-col list-group-item-action py-3 lh-tight">
               <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">Username</strong>
+                <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
               </div>
-              <div class="col-10 mb-1 small">Message content</div>
+              <div class="col-10 mb-1 small">{{m.message_text}}</div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </cdk-virtual-scroll-viewport>
+
+
 
     <div class="row bottom-0">
       <div class="message-box input-group mb-3 position-absolute bottom-0" id="">
         <span type="button" class="send-btn btn btn-outline-dark" id="upload_file">Upload File</span>
-        <input type="text" class="form-control" placeholder="" id="message_text">
-        <button class="send-btn btn btn-outline-secondary" id="send_btn">Send</button>
+        <input type="text" class="form-control" placeholder="" id="message_text" [(ngModel)]="messageContent" (keyup.enter)="sendMessage()">
+        <button class="send-btn btn btn-outline-secondary" id="send_btn" (click)="sendMessage()">Send</button>
       </div>
     </div>
   </div>

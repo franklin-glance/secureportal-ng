@@ -1,4 +1,5 @@
-.col {
+
+.col-special {
   background: aliceblue;
   border: 1px solid black;
   border-radius: 5px;
@@ -6,8 +7,25 @@
   margin: 10px;
 }
 
+.chat-header {
+  color: cadetblue;
+  font-size: 30px;
+  font-weight: lighter;
+/*  center in container*/
+  margin: 0 auto;
+  padding: 10px;
+  text-align: center;
+
+
+}
+
+.message-col {
+  border-radius: 5px;
+  background: #4f9391;
+}
+
 .chat-area {
-  height : 500px;
+  height : 600px;
 }
 
 .message-box{
@@ -53,7 +71,32 @@
   margin-bottom: 1rem!important;
 }
 
+.secret-key-btn{
+  border-width: medium;
+}
 
+.chat-viewport{
+  height: 450px;
+  width: 100%;
+}
 
+mat-list-item {
+  height: auto !important;
+  padding-top: 4px !important;
+  padding-bottom: 4px !important;
+}
 
+mat-list {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.example-viewport {
+  height: 200px;
+  width: 100%;
+  border: 1px solid black;
+}
+.example-alternate {
+  background: rgba(127, 127, 127, 0.3);
+}
 

@@ -11,6 +11,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {ProfileComponent} from "./components/profile/profile.component";
 import {SettingsComponent} from "./components/profile/settings/settings.component";
 import {Title} from "@angular/platform-browser";
+import {NewportalComponent} from "./components/newportal/newportal.component";
 
 
 
@@ -58,7 +59,7 @@ const routes: Routes = [
   },
   {
     path: 'newportal',
-    component: PortalComponent,
+    component: NewportalComponent,
     title: 'SecurePortal | New Portal'
   },
   {

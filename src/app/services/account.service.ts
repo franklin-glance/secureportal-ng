@@ -5,6 +5,8 @@ import { Router} from "@angular/router";
 
 
 import { Config } from '../models/config'
+import {User} from "../models/user";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -42,10 +44,18 @@ export class AccountService {
     return this.http.post<any>(`${Config.phpUrl}/includes/signup.inc.php`, data);
   }
 
+  // get user information
+  getUser(): Observable<any> {
+    return this.http.get(`${Config.phpUrl}/includes/getuser.inc.php`).pipe(
+      map((data: any) => {
+        return data['data'];
+      }
+    ));
+  }
 
   // update user information
-  update(){
-
+  update(user: User){
+    return this.http.put(`${Config.phpUrl}/includes/updateaccount.inc.php`, user);
   }
 
   // remove user account
@@ -63,5 +73,52 @@ export class AccountService {
     } else {
       return "Guest";
     }
+  }
+
+  getSenderKey() {
+    // generate key if one does not already exist
+    let senderKey = localStorage.getItem('senderKey');
+    if(!senderKey) {
+      senderKey = AccountService.generateSenderKey();
+      localStorage.setItem('senderKey', senderKey);
+    }
+    return senderKey;
+  }
+
+  private static generateSenderKey() {
+    return "12345";
+  }
+
+  setSecretKey(username: any, secret_key: string): any {
+    if (this.getLoggedIn()) {
+      var data = new FormData();
+      data.append("username", username);
+      data.append("secret_key", secret_key);
+      var xhr = new XMLHttpRequest();
+      xhr.addEventListener("readystatechange", function() {
+        if(this.readyState === 4) {
+          console.log(this.responseText);
+        }
+      });
+      xhr.open("POST", `${Config.phpUrl}/includes/setsecretkey.inc.php`);
+      xhr.send(data);
+    }
+    localStorage.setItem('secretKey', secret_key);
+  }
+
+  getSecretKey() {
+    return localStorage.getItem('secretKey');
+}
+
+  deleteSecretKey() {
+    localStorage.removeItem('secretKey');
+  }
+
+  getEmail() {
+    return localStorage.getItem('email');
+  }
+
+  validateKey(secret_key_form: any) {
+    return this.http.post(`${Config.phpUrl}/includes/validatekey.inc.php`, {secret_key: secret_key_form});
   }
 }

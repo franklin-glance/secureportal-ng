@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row align-content-center justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h2>Generate Key</h2>
+          <p>
+            Your secure key must be kept private. Share it with whoever you would like to connect to.
+          </p>
+        </div>
+
+        <div class="card-body">
+          <div class="input-group mb-3">
+            <button class="btn btn-primary btn-block" id="generateButton" type="button" (click)="generateKey()">Generate</button>
+            <input type="text" class="form-control" id="key_form" readonly value="{{this.key}}">
+            <button class="btn btn-outline-secondary btn-block" id="copyButton" type="button" routerLink="/portal">Open Portal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
