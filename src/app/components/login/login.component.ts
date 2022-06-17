@@ -7,7 +7,6 @@ import { HttpClient,  HttpParams} from "@angular/common/http";
 import { SessionData} from "../../ts/session-data";
 
 
-import {User} from "../../models/user";
 import {AccountService} from "../../services/account.service";
 
 
@@ -74,6 +73,7 @@ export class LoginComponent implements OnInit {
           console.log("welcome: " + this.responsedata["username"]);
           localStorage.setItem("user", this.responsedata["username"]);
           localStorage.setItem("loggedIn", "true");
+
           this.router.navigate(['/']);
         } else {
           this.invalidForm = true;

@@ -27,6 +27,8 @@ import {ScrollingModule} from "@angular/cdk/scrolling";
 
 import {MatListModule} from "@angular/material/list";
 import { ConfirmdeleteComponent } from './components/profile/settings/confirmdelete/confirmdelete.component';
+import { ChatareaComponent } from './components/portal/chatarea/chatarea.component';
+import { ContactComponent } from './componenets/contact/contact.component';
 
 
 @NgModule({
@@ -47,6 +49,8 @@ import { ConfirmdeleteComponent } from './components/profile/settings/confirmdel
     LoginComponent,
     CallToActionComponent,
     ConfirmdeleteComponent,
+    ChatareaComponent,
+    ContactComponent,
   ],
   imports: [
     BrowserModule,

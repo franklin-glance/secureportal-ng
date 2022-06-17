@@ -62,6 +62,9 @@ export class RegisterComponent implements OnInit {
           this.accountService.setLoggedIn(true);
           localStorage.setItem("user", this.responsedata["username"]);
           localStorage.setItem("loggedIn", "true");
+
+          this.accountService.setUser(this.responsedata['User']);
+
           this.router.navigate(['/']);
         } else {
           this.invalidForm = true;

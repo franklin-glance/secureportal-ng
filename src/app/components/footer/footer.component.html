@@ -1,19 +1,19 @@
-<footer class="py-2 my-2 bg-dark">
-  <ul class="nav justify-content-center pb-3 mb-3">
-    <li class="nav-item"><a routerLink="/homepage" class="nav-link px-2 text-light">Home</a></li>
-    <li class="nav-item"><a routerLink="/features" class="nav-link px-2 text-light">Features</a></li>
-    <li class="nav-item"><a routerLink="/contact" class="nav-link px-2 text-light">Contact</a></li>
-    <li class="nav-item"><a routerLink="/about" class="nav-link px-2 text-light">About</a></li>
-    <li class="nav-item"><a routerLink="/portal" class="nav-link px-2 text-light">Portal</a></li>
+<footer class="footer py-2 my-2 bg-dark">
+  <ul class="nav footer-text justify-content-center pb-3 mb-3">
+    <li class="nav-item"><a routerLink="/homepage" class="nav-link px-2 ">Home</a></li>
+    <li class="nav-item"><a routerLink="/features" class="nav-link px-2 ">Features</a></li>
+    <li class="nav-item"><a routerLink="/contact" class="nav-link px-2">Contact</a></li>
+    <li class="nav-item"><a routerLink="/about" class="nav-link px-2">About</a></li>
+    <li class="nav-item"><a routerLink="/portal" class="nav-link px-2">Portal</a></li>
     <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
     <ng-template #signedIn>
-          <li class="nav-item"><a routerLink="/profile" class="nav-link px-2 text-light">Profile</a></li>
-          <li class="nav-item"><a (click)="this.logout()" class="nav-link px-2 text-light">Logout</a></li>
+          <li class="nav-item"><a routerLink="/profile" class="nav-link px-2">Profile</a></li>
+          <li class="nav-item"><a (click)="this.logout()" class="nav-link px-2">Logout</a></li>
     </ng-template>
     <ng-template #signedOut>
-          <li class="nav-item"><a routerLink="/login" class="nav-link px-2 text-light">Login</a></li>
-          <li class="nav-item"><a routerLink="/register" class="nav-link px-2 text-light">Register</a></li>
+          <li class="nav-item"><a routerLink="/login" class="nav-link px-2 ">Login</a></li>
+          <li class="nav-item"><a routerLink="/register" class="nav-link px-2 ">Register</a></li>
     </ng-template>
   </ul>
-  <p class="text-center text-light">&copy; 2022 Franklin Glance</p>
+  <p class="text-center">&copy; 2022 Franklin Glance</p>
 </footer>

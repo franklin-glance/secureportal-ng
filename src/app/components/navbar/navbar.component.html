@@ -1,26 +1,42 @@
 <div class="nav border-bottom">
 <div class="container">
-  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4">
-    <a routerLink="/homepage" class="navbar-brand d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+  <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 m-2 ">
+    <a routerLink="/homepage" class="navbar-brand d-flex align-items-center col-md-3 mb-2 mb-md-0">
       SecurePortal
     </a>
-
 <!--    main nav links-->
     <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a routerLinkActive="active current" routerLink="/homepage" class="nav-link px-2 link-secondary">Home</a></li>
-      <li><a routerLinkActive="active current" routerLink="/features" class="nav-link px-2 link-dark">Features</a></li>
-      <li><a routerLinkActive="active current" routerLink="/portal" class="nav-link px-2 link-dark">Portal</a></li>
-      <li><a routerLinkActive="active current" routerLink="/faq" class="nav-link px-2 link-dark">FAQs</a></li>
-      <li><a routerLinkActive="active current" routerLink="/about" class="nav-link px-2 link-dark">About</a></li>
+      <li><a routerLinkActive="active current" routerLink="/homepage" class="nav-link px-2">Home</a></li>
+<!--      <li><a routerLinkActive="active current" routerLink="/features" class="nav-link px-2">Features</a></li>-->
+      <li><a routerLinkActive="active current" routerLink="/portal" class="nav-link px-2">Portal</a></li>
+<!--      <li><a routerLinkActive="active current" routerLink="/faq" class="nav-link px-2">FAQs</a></li>-->
+      <li><a routerLinkActive="active current" routerLink="/about" class="nav-link px-2">About</a></li>
     </ul>
 
 <!--    right nav buttons-->
 
     <div class="col-md-3 text-end">
-      <button routerLink="/newportal" type="button" class="btn btn-outline-dark" >New Portal</button>
+      <button routerLink="/newportal" type="button" class="btn btn-outline-dark " >New Portal</button>
       <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
       <ng-template #signedIn>
-        <button (click)="this.logout()" type="button" class="btn btn-outline-primary">Logout</button>
+        <div ngbDropdown class="d-inline-block">
+<!--          <button type="button" class="btn btn-primary" id="dropdownProfileButton" ngbDropdownToggle>-->
+<!--            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">-->
+<!--              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>-->
+<!--              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>-->
+<!--            </svg>-->
+<!--            Profile-->
+<!--          </button>-->
+            <svg ngbDropdownToggle xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="cadetblue" class="bi bi-person-circle profile-circle" viewBox="0 0 16 16">
+              <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+              <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
+            </svg>
+          <div ngbDropdownMenu class="dropdown">
+            <button class="dropdown" ngbDropdownItem routerLink="/profile" routerLinkActive="active current" >Profile</button>
+            <button class="dropdown" ngbDropdownItem routerLink="/portal" >Portal</button>
+            <button class="dropdown" ngbDropdownItem (click)="this.logout()">Logout</button>
+          </div>
+        </div>
       </ng-template>
       <ng-template #signedOut>
         <button routerLink="/login" type="button" class="btn btn-outline-dark" >Login</button>
@@ -28,6 +44,10 @@
       </ng-template>
     </div>
 
+
 </header>
 </div>
 </div>
+
+
+

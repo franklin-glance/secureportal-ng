@@ -1,0 +1,50 @@
+<section class="align-content-center justify-content-center py-5">
+  <div class="row-md-8">
+    <div class="row align-content-center justify-content-center">
+      <div class="col-md-6 mb-md-0 mb-5">
+        <h2 class="h1-responsive font-weight-bold my-4">Contact us</h2>
+        <p class="w-responsive mx-auto mb-5">Let us know what you think of SecurePortal</p>
+        <form id="contact-form" name="contact-form" [formGroup]="contactFormGroup" >
+          <div class="row">
+            <div class="col-md-6">
+              <div class="md-form mb-0">
+                <span class="error_message" id="name_error_message"></span>
+                <input type="text" id="name" name="name" class="form-control" formControlName="name">
+                <label for="name" class="">Your name</label>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="md-form mb-0">
+                <span class="error_message" id="email_error_message"></span>
+                <input type="text" id="email" name="email" class="form-control" formControlName="email">
+                <label for="email" class="">Your email</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="md-form mb-0">
+                <span class="error_message" id="subject_error_message"></span>
+                <input type="text" id="subject" name="subject" class="form-control" formControlName="subject">
+                <label for="subject" class="">Subject</label>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="md-form">
+                <span class="error_message" id="message_error_message"></span>
+                <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea" formControlName="message"></textarea>
+                <label for="message">Your message</label>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="text-center text-md-left">
+          <button id="contactbutton" class="btn btn-primary" (click)="onSubmit()">Send</button>
+        </div>
+        <div class="status"></div>
+      </div>
+    </div>
+  </div>
+</section>

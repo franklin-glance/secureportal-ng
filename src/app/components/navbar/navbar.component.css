@@ -1,3 +1,68 @@
-nav {
-  background-color: cadetblue;
+.btn {
+  color: var(--main-color-1);
+
+  margin-right: 10px!important;
 }
+
+header a li ul div {
+  color: var(--main-color-2);
+
+}
+
+.nav {
+  color: var(--font-color-1);
+  font-weight: lighter;
+  background-color: var(--background-color-1);
+  font-size: large;
+}
+
+.container {
+  border-bottom: var(--main-color-2);
+}
+
+.navbar-brand {
+  font-weight: normal;
+  color: var(--font-color-1);
+  font-size: x-large;
+}
+
+.btn {
+  background-color: var(--main-color-1); /* Green */
+  color: var(--font-color-1);
+  border-color: var(--main-color-2);
+  /*padding: 15px 32px;*/
+  /*text-align: center;*/
+  /*text-decoration: none;*/
+  /*display: inline-block;*/
+  /*font-size: 16px;*/
+}
+
+.btn:hover {
+  background: var(--background-color-1);
+}
+
+.dropdown {
+  font-weight: lighter;
+  background-color: var(--background-color-1);
+}
+
+.profile-circle:hover {
+
+  fill: var(--font-color-hover) !important;
+
+}
+
+.nav-link {
+  color: var(--font-color-1);
+}
+
+:hover {
+  color: var(--font-color-hover) !important;
+}
+
+
+.active {
+  color: var(--font-color-1);
+  font-weight: normal;
+}
+

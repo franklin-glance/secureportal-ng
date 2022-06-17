@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import {Observable} from "rxjs";
 import { Router} from "@angular/router";
@@ -8,14 +8,53 @@ import { Config } from '../models/config'
 import {User} from "../models/user";
 import {map} from "rxjs/operators";
 
+export interface Response {
+  status: number;
+  message: string;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
-export class AccountService {
- constructor(private http: HttpClient,
-             private router: Router) { }
+export class AccountService implements OnInit{
 
-  logged_in: boolean = false;
+  generateRandNum(length: number): string {
+    const characters ='0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result.trim();
+  }
+
+  ngOnInit() {
+
+  }
+
+
+  user: User = { username: 'Anonymous', friends: []};
+  user_default: User = { username: 'Anonymous', friends: []};
+
+ constructor(private http: HttpClient,
+             private router: Router) {
+ }
+
+logged_in: boolean = false;
+_connected: boolean = false;
+
+set connected(val: boolean){
+  this._connected = val;
+}
+
+get connected(): boolean{
+  return this._connected;
+}
+
+ setUser(data: any){
+   this.user = JSON.parse(data);
+ }
 
   // login user
   login(data: any): Observable<any> {
@@ -35,14 +74,19 @@ export class AccountService {
   logout(){
     // delete user from local storage
     console.log("logout");
-    localStorage.removeItem('user' );
+    localStorage.clear();
+    this.connected = false;
+    this.user = this.user_default;
     this.logged_in = false;
+    this.router.navigate(['/']);
   }
 
   // register new user
   register(data: any): Observable<any>{
+    // this should just be successful
     return this.http.post<any>(`${Config.phpUrl}/includes/signup.inc.php`, data);
   }
+
 
   // get user information
   getUser(): Observable<any> {
@@ -55,24 +99,26 @@ export class AccountService {
 
   // update user information
   update(user: User){
-    return this.http.put(`${Config.phpUrl}/includes/updateaccount.inc.php`, user);
+    return this.http.put(`${Config.phpUrl}/includes/updateuser.inc.php`, JSON.stringify(user));
   }
 
   // remove user account
   delete(){
     let username = localStorage.getItem('user');
-    // delete user from local storage
-    sessionStorage.removeItem('user');
 
-    return this.http.post(`${Config.phpUrl}/includes/deleteaccount.inc.php`, {username});
+    this.logout();
+    this.http.get(`${Config.phpUrl}/includes/deleteaccount.inc.php?username=${username}`).subscribe(
+      (data: any) => {
+        console.log(data);
+      } ,
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
   }
 
   getUsername() {
-    if(this.getLoggedIn()) {
-      return localStorage.getItem('user');
-    } else {
-      return "Guest";
-    }
+    return this.user.username;
   }
 
   getSenderKey() {
@@ -80,7 +126,7 @@ export class AccountService {
     let senderKey = localStorage.getItem('senderKey');
     if(!senderKey) {
       senderKey = AccountService.generateSenderKey();
-      localStorage.setItem('senderKey', senderKey);
+      localStorage.setItem('senderKey', senderKey.trim());
     }
     return senderKey;
   }
@@ -108,9 +154,10 @@ export class AccountService {
 
   getSecretKey() {
     return localStorage.getItem('secretKey');
-}
+  }
 
   deleteSecretKey() {
+  // TODO: delete key from key registry
     localStorage.removeItem('secretKey');
   }
 
@@ -121,4 +168,99 @@ export class AccountService {
   validateKey(secret_key_form: any) {
     return this.http.post(`${Config.phpUrl}/includes/validatekey.inc.php`, {secret_key: secret_key_form});
   }
+
+
+  getFriends(){
+    return this.user.friends;
+  }
+
+  addFriend(friend: User){
+    this.user.friends.push(friend);
+    // TODO: update user on database
+  }
+
+  removeFriend(friend: User): string{
+    // TODO: update user on database
+    var i;
+    let found: boolean = false;
+    let temp: Array<User> = [];
+    for (i = 0; i < this.user.friends.length; i++) {
+      if (this.user.friends[i] === friend) {
+        found = true;
+      } else {
+        temp.push(this.user.friends[i]);
+      }
+    }
+    if (found){
+      this.user.friends = temp;
+      return 'friend removed successfully';
+    }else {
+      return 'friend not found in users friend list';
+    }
+  }
+
+  addSecretKey(key: string): any {
+    this.http.get(`${Config.phpUrl}/includes/newkey.inc.php?secret_key=${key}`).subscribe(
+      (data: any) => {
+        console.log(data);
+      } ,
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
+  checkKeyRegistry(key: string): any{
+  let r: number;
+  this.http.get<any>(`${Config.phpUrl}/includes/checkKeyRegistry.inc.php?secret_key=${key}`)
+    .subscribe({
+      next: (data: any) => {
+        return r==0;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.log(error);
+      },
+      complete: () => {
+        console.log('complete');
+        return r == 0;
+      }});
+  }
+
+
+
+  addKey(secret_key_form: any) {
+   // adds key to local storage registry of keys
+    // json encoding of array
+    let keyArray = [secret_key_form];
+    if (localStorage.getItem('user_keys') != null){
+      // @ts-ignore
+      keyArray = JSON.parse(localStorage.getItem('user_keys'));
+      keyArray.push(secret_key_form);
+    }
+    localStorage.setItem('user_keys', JSON.stringify(keyArray));
+  }
+
+  checkKey(key: string){
+    return this.http.get<any>(`${Config.phpUrl}/includes/checkKeyRegistry.inc.php?secret_key=${key}`);
+  }
+
+
+getConnectionStatus(): any{
+  // update user info
+  this.http.get<any>(`${Config.phpUrl}/includes/getuser.inc.php?username=${localStorage.getItem('user')}`)
+    .subscribe({
+      next: value => {
+        if (value != null){
+          this.user = (value);
+        }
+      },
+
+      }
+    )
+
+  let key = this.getSecretKey();
+   return this.http.get<any>(`${Config.phpUrl}/includes/checkKeyRegistry.inc.php?secret_key=${key}`);
+  }
+
+
 }

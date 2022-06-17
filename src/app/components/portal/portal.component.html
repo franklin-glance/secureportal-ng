@@ -1,90 +1,192 @@
 
 
-<div class="container">
-  <div class="row">
-    <div class="col col-special">
-      <nav aria-label="breadcrumb" class="bg-light rounded-3 ">
-        <ol class="breadcrumb mb-0">
-          <li class="breadcrumb-item"><a routerLink="/homepage">Home</a></li>
-          <li class="breadcrumb-item active"><a routerLink="/portal">Portal</a></li>
-        </ol>
-      </nav>
-    </div>
-  </div>
-  <div class="row justify-content-center align-content-center">
+<section >
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <h1 class="my-3" id="title">Welcome, {{this.getUsername()}}</h1>
+            <hr/>
+            <div class="d-flex justify-content-center mb-2">
 
-  <div class="col col-special col-12 col-lg-5 col-md-12 col-sm-12">
-    <h4 class="row justify-content-center align-content-center">Settings</h4>
-    <hr/>
-    <div *ngIf="isLoggedIn(); then signedIn else signedOut"></div>
-
-    <ng-template #signedIn>
-      <button class="btn btn-primary btn-block" id="account_settings_button" type="button" routerLink="/profile/settings">Account Settings</button>
-      <hr/>
-    </ng-template>
-
-    <ng-template #signedOut>
-        <button id="login_settings_btn" class="btn btn-primary btn-block " type="button" routerLink="/login">Login</button>
-      <hr/>
-    </ng-template>
-
-
-
-    <div *ngIf="getSecretKey(); then showSecretKey else hideSecretKey" class="row"></div>
-    <ng-template #showSecretKey>
-      <div class="input-group mb-3 ">
+            </div>
+            <div *ngIf="getSecretKey(); then showSecretKey else hideSecretKey" class="row"></div>
+            <ng-template #showSecretKey>
+              <div class="input-group mb-3 ">
         <span type="button" class="secret-key-btn btn btn-outline-dark disabled" >
         Secret Key: {{getSecretKey()}}
         </span>
-        <button class="btn btn-outline-secondary" id="delete_secret_key" (click)="deleteKey()">Delete Key</button>
-        <button class="btn btn-outline-secondary" id="share_secret_key" (click)="copyKey()">Copy Key</button>
-        <small id="secret_key_help" class="form-text text-muted">
-          {{this.secret_key_help}}
-        </small>
-      </div>
-    </ng-template>
+                <button class="btn btn-outline-secondary" id="delete_secret_key" (click)="deleteKey()">Delete</button>
+                <button class="btn btn-outline-secondary" id="share_secret_key" (click)="copyKey()">Copy Key</button>
 
-    <ng-template #hideSecretKey>
-      <div class="col-12 mb-3">
-        <div class="input-group">
-          <div class="input-group-prepend">
+              </div>
+            </ng-template>
+
+            <ng-template #hideSecretKey>
+              <div class="col-12 mb-3">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                  </div>
+                  <button class="btn btn-primary btn-block" id="generateButton" type="button" routerLink="/newportal">New Key</button>
+                  <input type="text" class="form-control" [ngClass]="{'is-invalid': this.secret_key_error} " id="secret_key_portal" placeholder="Secret Key" [(ngModel)]="secret_key_form" >
+                  <button class="btn btn-outline-secondary"  id="secret_key_portal_btn" (click)="connectViaKey()">Connect</button>
+                </div>
+              </div>
+            </ng-template>
+
           </div>
-          <button class="btn btn-primary btn-block" id="generateButton" type="button" routerLink="/newportal">New Key</button>
-          <input type="text" class="form-control" id="secret_key_portal" placeholder="Secret Key" [(ngModel)]="secret_key_form" >
-          <button class="btn btn-outline-secondary" id="secret_key_portal_btn" (click)="connectViaKey()">Connect</button>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+              <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+<!--                contacts/recent connections-->
+                <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 380px;">
+                  <a href="/" class="d-flex align-items-center flex-shrink-0 p-3 link-dark text-decoration-none border-bottom">
+                    <svg class="bi pe-none me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    <span class="fs-5 fw-semibold">List group</span>
+                  </a>
+                  <div class="list-group list-group-flush border-bottom scrollarea">
+                    <a href="#" class="list-group-item list-group-item-action active py-3 lh-sm" aria-current="true">
+                      <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1">List group item heading</strong>
+                        <small>Wed</small>
+                      </div>
+                      <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action py-3 lh-sm">
+                      <div class="d-flex w-100 align-items-center justify-content-between">
+                        <strong class="mb-1">List group item heading</strong>
+                        <small class="text-muted">Tues</small>
+                      </div>
+                      <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and date.</div>
+                    </a>
+                  </div>
+                </div>
+
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </ng-template>
-  </div>
-  <div class="chat-area col col-special col-12 col-lg-6 col-md-12 col-sm-12 position-relative  ">
-    <h1 class="chat-header">
-      Welcome {{getName()}}
-    </h1>
-    <hr/>
-    <div class="row">
-      <div class="col ">
-
-      <cdk-virtual-scroll-viewport  appendOnly itemSize="100" class="chat-viewport chat scroll-to-bottom" id="scroll" style="overflow: auto;">
-        <div *ngFor="let m of this.messages" class="d-flex  flex-column align-items-stretch flex-shrink-0 ">
-          <div class="list-group list-group-flush border-bottom scrollarea" >
-            <div class="list-group-item message-col list-group-item-action py-3 lh-tight">
-              <div class="d-flex w-100 align-items-center justify-content-between">
-                <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+<!--            row-->
+            <div class="row">
+              <div class="col-sm-3">
+                Portal Session
               </div>
-              <div class="col-10 mb-1 small">{{m.message_text}}</div>
+              <div class="col-sm-3"></div>
+              <div class="col-sm-4">
+                <div *ngIf="this.connected; then connectedStatus else notConnectedStatus" ></div>
+                <ng-template #connectedStatus>
+                  <div>
+                    Connection Status: Connected
+                  </div>
+                </ng-template>
+                <ng-template #notConnectedStatus>
+                  <div>
+                    Connection Status: Disconnected
+                  </div>
+
+                </ng-template>
+
+              </div>
+
+            </div>
+            <hr>
+
+<!--            ===================== Chat Area ==========================================-->
+            <div class="row">
+
+              <div style="overflow: scroll; height: 400px;" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+
+                <div *ngFor="let m of this.messages" class="d-flex  flex-column align-items-stretch flex-shrink-0" #chatArea>
+                  <div *ngIf="m.message_text != ''">
+
+                  <div *ngIf="(m.from_username === this.getUsername()); then fromUser else toUser"></div>
+                  <ng-template #toUser>
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <div class="list-group list-group-flush border-bottom card" >
+                          <div class="list-group-item card-body list-group-item-action py-3 lh-tight">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                              <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
+                            </div>
+                            <div class="col-10 mb-1 small">{{m.message_text}}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6">
+                      </div>
+                    </div>
+                  </ng-template>
+                  <ng-template #fromUser>
+                    <!--                their chats-->
+                    <div class="row">
+
+                      <div class="col-sm-6">
+
+                      </div>
+                      <!--                my messages-->
+                      <div class="col-sm-6">
+                        <div class="list-group list-group-flush border-bottom card" >
+                          <div class="list-group-item card-body list-group-item-action py-3 lh-tight">
+                            <div class="d-flex w-100 align-items-center justify-content-between">
+                              <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
+                            </div>
+                            <div class="col-10 mb-1 small">{{m.message_text}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+                </div>
+                <!--                <app-chatarea [parentData]="messages" ></app-chatarea>-->
+              </div>
+            </div>
+
+          <hr/>
+
+<!--            MEssage Box-->
+
+<!--             ROw -->
+                <div class="pt-4 row bottom-0">
+                  <div class="message-box input-group mb-3 position-absolute bottom-0" id="">
+                    <span type="button" class="send-btn btn btn-outline-dark" id="upload_file">Upload File</span>
+                    <input type="text" class="form-control" placeholder="" id="message_text" [(ngModel)]="messageContent" (keyup.enter)="sendMessage()">
+                    <button class="send-btn btn btn-outline-secondary" id="send_btn" (click)="sendMessage()">Send</button>
+                  </div>
+                </div>
+<!--            end of rows and div-->
+          </div>
+        </div>
+
+        <div class="row">
+
+          <!--        card 1 below chat-->
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+
+              </div>
+            </div>
+          </div>
+          <!--        card 2 below chat-->
+          <div class="col-md-6">
+            <div class="card mb-4 mb-md-0">
+              <div class="card-body">
+<!--                body here-->
+
+              </div>
             </div>
           </div>
         </div>
-      </cdk-virtual-scroll-viewport>
-
-
-
-    <div class="row bottom-0">
-      <div class="message-box input-group mb-3 position-absolute bottom-0" id="">
-        <span type="button" class="send-btn btn btn-outline-dark" id="upload_file">Upload File</span>
-        <input type="text" class="form-control" placeholder="" id="message_text" [(ngModel)]="messageContent" (keyup.enter)="sendMessage()">
-        <button class="send-btn btn btn-outline-secondary" id="send_btn" (click)="sendMessage()">Send</button>
       </div>
     </div>
   </div>
-</div>
+</section>
+

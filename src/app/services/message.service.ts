@@ -11,6 +11,7 @@ import {Observable, Subject} from "rxjs";
 import {AccountService} from "./account.service";
 
 import {environment} from "../../environments/environment";
+import {Message} from "../models/message";
 
 @Injectable({
   providedIn: 'root'
@@ -23,43 +24,6 @@ export class MessageService {
                private accountService: AccountService) { }
 
 
-  // public connect(user: User, portal_secret: string) {
-  //   // connect user to session
-  //   // let connectresponse: any;
-  //   // this.http.post(`${Config.phpUrl}/includes/connect.inc.php`, {User, portal_secret})
-  //   //   .subscribe(
-  //   //     data => {
-  //   //       connectresponse = data;
-  //   //     },
-  //   //     error => {
-  //   //       console.log(error);
-  //   //     },
-  //   //     () => {
-  //   //       if(connectresponse.success) {
-  //   //         // this.portal = connectresponse.portal;
-  //   //         this.user = connectresponse.user;
-  //   //       } else {
-  //   //         console.log("error connecting to portal");
-  //   //       }
-  //   //     }
-  //   //   );
-  //
-  // }
-
-  //
-  //
-  // public setPortal(portal: PortalSession) {
-  //   this.portal = portal;
-  // }
-  //
-  // public getPortal(): PortalSession {
-  //   return this.portal;
-  // }
-  //
-  // public setUser(user: User) {
-  //   this.user = user;
-  // }
-  //
   public getUser(): string {
     // @ts-ignore
     return this.accountService.getUsername();
@@ -89,7 +53,7 @@ export class MessageService {
       );
    }
 
-  public getMessages() {
+  public getMessages(): Observable<Object> {
     // get messages for portal session
     let message: any;
     message = {

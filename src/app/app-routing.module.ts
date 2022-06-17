@@ -12,6 +12,7 @@ import {ProfileComponent} from "./components/profile/profile.component";
 import {SettingsComponent} from "./components/profile/settings/settings.component";
 import {Title} from "@angular/platform-browser";
 import {NewportalComponent} from "./components/newportal/newportal.component";
+import {ContactComponent} from "./componenets/contact/contact.component";
 
 
 
@@ -61,6 +62,11 @@ const routes: Routes = [
     path: 'newportal',
     component: NewportalComponent,
     title: 'SecurePortal | New Portal'
+  },
+  {
+    path: 'contact',
+    component: ContactComponent,
+    title: 'SecurePortal | Contact'
   },
   {
     path: 'profile',

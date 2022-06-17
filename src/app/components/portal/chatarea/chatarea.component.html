@@ -1,0 +1,41 @@
+<div *ngFor="let m of this.portal.messages" class="d-flex  flex-column align-items-stretch flex-shrink-0" #chatArea>
+  <div *ngIf="(m.from_username === this.portal.getUsername()); then fromUser else toUser"></div>
+  <ng-template #toUser>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="list-group list-group-flush border-bottom card" >
+          <div class="list-group-item card-body list-group-item-action py-3 lh-tight">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+              <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
+            </div>
+            <div class="col-10 mb-1 small">{{m.message_text}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+      </div>
+    </div>
+  </ng-template>
+
+
+  <ng-template #fromUser>
+    <!--                their chats-->
+    <div class="row">
+
+      <div class="col-sm-6">
+
+      </div>
+      <!--                my messages-->
+      <div class="col-sm-6">
+        <div class="list-group list-group-flush border-bottom card" >
+          <div class="list-group-item card-body list-group-item-action py-3 lh-tight">
+            <div class="d-flex w-100 align-items-center justify-content-between">
+              <strong class="mb-1">{{m.from_username}}</strong> <p>{{m.date_created}}</p>
+            </div>
+            <div class="col-10 mb-1 small">{{m.message_text}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

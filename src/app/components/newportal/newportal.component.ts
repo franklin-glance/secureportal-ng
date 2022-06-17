@@ -29,14 +29,19 @@ export class NewportalComponent implements OnInit {
     for ( let i = 0; i < length; i++ ) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
-    return result;
+    return result.trim();
   }
 
   generateKey() {
     this.key = this.generateSecretKey(12);
     // if logged in, save key to user
     console.log(this.key);
-    this.accountService.setSecretKey(this.accountService.getUsername(), this.key);
+    this.accountService.addSecretKey(this.key);
+    if (this.accountService.getLoggedIn()){
+      this.accountService.setSecretKey(this.accountService.getUsername(), this.key);
+    } else {
+      localStorage.setItem('secretKey', this.key);
+    }
   }
 
   copyKey() {

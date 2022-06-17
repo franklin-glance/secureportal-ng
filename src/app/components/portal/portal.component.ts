@@ -1,50 +1,63 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AccountService} from "../../services/account.service";
 import {Router} from "@angular/router";
 import {Form, FormBuilder, FormGroup, FormControl} from "@angular/forms";
-
 import {MessageService} from "../../services/message.service";
+import {Inject} from "@angular/core";
+import {DOCUMENT} from "@angular/common";
 
 import {Clipboard} from "@angular/cdk/clipboard";
+import {User} from "../../models/user";
 
-import {CdkVirtualScrollViewport} from "@angular/cdk/scrolling";
-
+import {Message} from "../../models/message";
 
 @Component({
   selector: 'app-portal',
   templateUrl: './portal.component.html',
   styleUrls: ['./portal.component.css']
 })
-export class PortalComponent implements OnInit{
+export class PortalComponent implements OnInit {
 
-  message = {
-    from_username: "",
-    from_key: "",
-    date_created: "",
-    message_text: "Welcome to the chat!",
-    id: 0
-  }
 
-  messages =  [
-    this.message
-  ];
+  message: Message = {
+    from_username: "SecurePortal",
+    from_key: '',
+    date_created: '',
+    message_text: 'Welcome to the Portal!',
+    id: 0,
+  };
+
+  messages: Array<Message> = [this.message];
+
+
+
 
   logged_in: boolean = false;
-  username: string = "Guest";
   private senderId: string | undefined;
   secret_key_help: any;
   messageContent: any;
+  connected: boolean = false;
 
   secret_key_form: any;
-  secret_key_error: any;
+  secret_key_error: boolean = false;
 
+  private chatAreaDiv!: ElementRef<HTMLElement>;
 
   constructor(private accountService: AccountService,
               private router: Router,
               private clipboard: Clipboard,
-              private messageService: MessageService) { }
+              private messageService: MessageService,
+              @Inject(DOCUMENT) private document: Document) {
+
+  }
 
   ngOnInit(): void {
+    this.accountService.getConnectionStatus()
+      .subscribe(
+        (data: number) => {
+          this.connected = data == 0;
+        });
+
     this.router.events.subscribe((event) => {
       if(event.constructor.name === "NavigationEnd"){
         this.logged_in = this.accountService.getLoggedIn();
@@ -53,28 +66,28 @@ export class PortalComponent implements OnInit{
     if (this.accountService.getLoggedIn()){
       this.logged_in = true;
       // @ts-ignore
-      this.username = this.accountService.getUsername();
     }
 
-    // delete this.messages[0];
+    // check connectivity status
 
+    // delete this.messages[0];
     // check for new messages every second
     setInterval(() => {
-      this.messageService.getMessages().subscribe(
-        (data) => {
-          for (let item in data) {
-            // @ts-ignore
-            if(data[item].id > this.messages[this.messages.length-1].id){
-              // @ts-ignore
-              this.messages= data;
-            }
-            console.log(this.messages);
-          }
+        if (this.connected) {
 
+          this.messageService.getMessages().subscribe(
+            (data) => {
+              for (let item in data) {
+                // @ts-ignore
+                if (data[item].id > this.messages[this.messages.length - 1].id) {
+                  // @ts-ignore
+                  this.messages = data;
+                }
+              }
+            });
         }
-      );
-
-    }, 5000);
+      }
+      , 1000);
   }
 
 
@@ -87,6 +100,7 @@ export class PortalComponent implements OnInit{
   }
 
   deleteKey() {
+    this.connected = false;
     this.accountService.deleteSecretKey();
   }
 
@@ -107,27 +121,22 @@ export class PortalComponent implements OnInit{
   }
 
   sendMessage() {
-    // send message to the server
-    // clear the message
-    console.log(this.messageContent);
-    this.messageService.sendMessage(this.messageContent);
-    // add message to the message array
-    this.message.from_username = this.username;
-    // @ts-ignore
-    this.message.from_key = this.getSecretKey();
-    this.message.message_text= this.messageContent;
-    this.message.date_created = new Date().toLocaleString();
-    this.messages.push(this.message);
-    console.log(this.messages);
 
-    this.message = {
-      from_username: "",
-      from_key: "",
-      date_created: "",
-      message_text: "",
-      id: 0
+
+    if(this.getSecretKey() == undefined){
+      // please generate key message
+    } else {
+      this.messageService.sendMessage(this.messageContent);
+      this.message.from_username = this.accountService.getUsername();
+      // @ts-ignore
+      this.message.from_key = this.getSecretKey();
+      this.message.message_text= this.messageContent;
+      this.message.date_created = new Date().toLocaleString();
+      this.messages.push(this.message);
+
+      this.messageContent = "";
+
     }
-    this.messageContent = "";
 
   }
 
@@ -135,23 +144,35 @@ export class PortalComponent implements OnInit{
   connectViaKey() {
     // check if the key is valid
     // if valid, connect to the portal
-    this.accountService.validateKey(this.secret_key_form).subscribe(
-      (data) => {
-        for (let item in data) {
-          // @ts-ignore
-          if (data[item] == true){
-            console.log("valid key");
-            this.accountService.setSecretKey(this.username, this.secret_key_form);
-            this.router.navigate(['/portal']);
-          }
-          else {
-            this.secret_key_form = "Invalid Key";
-            console.log("invalid key");
-            break;
-          }
-        }
-        }
-    );
+    this.secret_key_error = false;
 
+    this.accountService.checkKey(this.secret_key_form).subscribe(
+      (data)=>
+      {
+        if (data == 0){
+          // key is valid
+          this.connected = true;
+          localStorage.setItem('secretKey', this.secret_key_form);
+          if (this.accountService.getLoggedIn()) {
+            this.accountService.setSecretKey(this.accountService.getUsername(), this.secret_key_form);
+          }
+          return;
+        } else if (data == 1){
+          this.connected = false;
+          this.secret_key_error=true;
+          return;
+        }
+      }
+    );
   }
+
+
+  getUsername() {
+    return this.accountService.getUsername();
+  }
+  getEmail() {
+    return this.accountService.getEmail();
+  }
+
+
 }

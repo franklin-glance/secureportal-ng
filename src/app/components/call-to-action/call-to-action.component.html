@@ -10,8 +10,10 @@
             <div class="input-group">
               <div class="input-group-prepend">
               </div>
-              <input type="text" class="form-control" id="secret_key_portal" placeholder="Secret Key" >
-              <button class="btn btn-outline-secondary" id="secret_key_portal_btn" (click)="secretKeyPortalBtnClick()">Connect</button>
+
+              <input type="text" class="form-control" [ngClass]="{'is-invalid': this.secret_key_error} " id="secret_key_portal" placeholder="Secret Key" [(ngModel)]="secret_key_form" >
+              <button class="btn btn-outline-secondary"  id="secret_key_portal_btn" (click)="connectViaKey()">Connect</button>
+
             </div>
             <span id="keyError" class="key"></span>
           </div>

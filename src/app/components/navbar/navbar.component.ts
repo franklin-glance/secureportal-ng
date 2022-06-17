@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppComponent} from "../../app.component";
 import { SessionData} from "../../ts/session-data";
 import { AccountService} from "../../services/account.service";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-navbar',
