@@ -10,13 +10,14 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {User} from "../../models/user";
 
 import {Message} from "../../models/message";
+import {OnDestroy} from "@angular/core";
 
 @Component({
   selector: 'app-portal',
   templateUrl: './portal.component.html',
   styleUrls: ['./portal.component.css']
 })
-export class PortalComponent implements OnInit {
+export class PortalComponent implements OnInit, OnDestroy {
 
 
   message: Message = {
@@ -37,6 +38,8 @@ export class PortalComponent implements OnInit {
   secret_key_help: any;
   messageContent: any;
   connected: boolean = false;
+
+  interval: any;
 
   secret_key_form: any;
   secret_key_error: boolean = false;
@@ -72,7 +75,7 @@ export class PortalComponent implements OnInit {
 
     // delete this.messages[0];
     // check for new messages every second
-    setInterval(() => {
+    this.interval = setInterval(() => {
         if (this.connected) {
 
           this.messageService.getMessages().subscribe(
@@ -90,6 +93,9 @@ export class PortalComponent implements OnInit {
       , 1000);
   }
 
+  ngOnDestroy() {
+    clearInterval(this.interval);
+  }
 
   getName() {
     return this.accountService.getUsername();

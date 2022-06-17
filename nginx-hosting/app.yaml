@@ -1,0 +1,6 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us.gcr.io/secureportal/angular-nginx-container', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us.gcr.io/secureportal/angular-nginx-container']
+images: ['us.gcr.io/secureportal/angular-nginx-container']
